@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Check } from "lucide-react";
 
-
 type Todo = {
     id: number;
     text: string;
@@ -10,7 +9,6 @@ type Todo = {
 }
 
 type Filter = "all" | "pending" | "completed";
-
 
 export default function TodoListpage() {
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -56,12 +54,10 @@ export default function TodoListpage() {
         localStorage.setItem("todos", JSON.stringify(todos));
     }, [todos]);
 
-
-
     return (
-
         <div className="wrapper mx-auto my-20 rounded-3xl border-2 p-10 w-[680px] border-gray ">
             <h1 className="text-center text-3xl">To-do List</h1>
+            {/* ADD */}
             <div className="Adding flex justify-center items-center my-5">
                 <input className="px-5 py-2 rounded-xl w-[70%] mr-2 border border-gray-500 focus:border-blue-500" type="text" placeholder="Add a new task" value={inputText} onChange={(e) => setInput(e.target.value)} />
                 <button
@@ -72,6 +68,7 @@ export default function TodoListpage() {
                     <span className="hidden sm:inline">Add</span>
                 </button>
             </div>
+            {/* filters */}
             <div className="controls m-3 ">
                 <div className="filters m-3 flex justify-center items-center gap-2">
 
@@ -110,8 +107,7 @@ export default function TodoListpage() {
 
                 </div>
             </div>
-
-
+            {/* Lists */}
             <ul className="todos flex flex-col gap-3 ">
                 {filteredTodos.map((todo) => (
                     <li key={todo.id} className="p-2 border-b border-gray-500 flex justify-between items-center bg-white cursor-pointer hover:bg-gray-100 transition" >
@@ -123,8 +119,6 @@ export default function TodoListpage() {
                                 opacity: todo.status === "completed" ? 0.5 : 1,
                             }}
                         >
-
-
                             {todo.text}
                         </span>
                         <span className="buttons float-right flex ">
@@ -147,6 +141,7 @@ export default function TodoListpage() {
 
 
                 ))}
+
                 {filteredTodos.length === 0 && (
                     <p className="text-center text-sm text-gray-400 mt-4">
                         No tasks here yet.
