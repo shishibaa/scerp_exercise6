@@ -80,13 +80,13 @@ export default function TodoListpage() {
                         All
                     </button>
                     <button className={`cursor-pointer px-3 py-1 rounded-full border 
-                                     ${filter === "all" ? "bg-black text-white border-black" : "text-gray-600 border-gray-300 hover:bg-gray-100"}
+                                     ${filter === "pending" ? "bg-black text-white border-black" : "text-gray-600 border-gray-300 hover:bg-gray-100"}
                                     `}
                         onClick={() => setFilter("pending")}>
                         Pending
                     </button>
                     <button className={`cursor-pointer px-3 py-1 rounded-full border 
-                                     ${filter === "all" ? "bg-black text-white border-black" : "text-gray-600 border-gray-300 hover:bg-gray-100"}
+                                     ${filter === "completed" ? "bg-black text-white border-black" : "text-gray-600 border-gray-300 hover:bg-gray-100"}
                                     `}
                         onClick={() => setFilter("completed")}>
                         Completed
