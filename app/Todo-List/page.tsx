@@ -35,13 +35,15 @@ export default function TodoListpage() {
     };
 
     const handleComplete = (id: number) => {
-        setTodos(todos.map(todo => todo.id === id ? { ...todo, status: "completed" } : todo));
+        setTodos(todos.map(todo =>
+            todo.id === id
+                ? { ...todo, status: todo.status === "completed" ? "pending" : "completed" }
+                : todo
+        ));
     };
 
     const handleDelete = (id: number) => {
-        if (window.confirm("Delete this task?")) {
-            setTodos(todos.filter(todo => todo.id !== id));
-        }
+        setTodos(todos.filter(todo => todo.id !== id));
     };
 
     useEffect(() => {
@@ -61,9 +63,10 @@ export default function TodoListpage() {
 
             {/* ADD */}
             <div className="Adding flex justify-center items-center my-5">
-                <input className="px-5 py-2 rounded-xl w-[70%] mr-2 border border-gray-500 focus:border-blue-500" type="text" placeholder="Add a new task" value={inputText} onChange={(e) => setInput(e.target.value)} />
-                <button
-                    className="px-4 py-2 rounded-xl cursor-pointer border border-gray-800 bg-slate-900 text-white text-sm sm:text-base font-medium flex items-center justify-center gap-1 shadow-md hover:bg-slate-800 active:scale-[0.98] transition"
+                <input className="px-5 py-2 rounded-xl w-[70%] mr-2 border border-gray-500 focus:border-blue-500" type="text" placeholder="Add a new task"
+                    value={inputText} onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { handleAdd(); } }} />
+                <button className="px-4 py-2 rounded-xl cursor-pointer border border-gray-800 bg-black text-white text-sm sm:text-base font-medium flex items-center justify-center gap-1 shadow-md hover:bg-slate-800 active:scale-[0.98] transition"
                     onClick={handleAdd}>
                     <Plus className="w-4 h-4" />
                     <span className="hidden sm:inline">Add</span>
@@ -95,27 +98,33 @@ export default function TodoListpage() {
             </div>
 
             {/* Lists */}
-            <ul className="todos flex flex-col gap-3 ">
+            <ul className="todos flex flex-col ">
                 {filteredTodos.map((todo) => (
-                    <li key={todo.id} className="p-2 border-b border-gray-500 flex justify-between items-center bg-white cursor-pointer hover:bg-gray-100 transition" >
+                    <li key={todo.id} className="p-2 border-b border-gray-500 flex justify-between items-center bg-white cursor-pointer hover:bg-gray-100 transition"
+>
 
-                        <span className="justify-center items-center mx-5 w-[100%]" onClick={() => handleComplete(todo.id)}
+                        <span className="justify-center items-center px-5 py-2 w-[100%] text-lg" onClick={() => handleComplete(todo.id)}
                             style={{
                                 textDecoration:
                                     todo.status === "completed" ? "line-through" : "none",
-                                opacity: todo.status === "completed" ? 0.5 : 1,
+                                opacity: todo.status === "completed" ? 0.25 : 1,
+
                             }}>
                             {todo.text}
                         </span>
                         <span className="buttons float-right flex ">
                             <button
                                 className="px-2 py-1 mr-2 rounded-lg cursor-pointer border border-gray-800 bg-slate-900 text-white text-sm sm:text-base  flex items-center justify-center gap-1  hover:bg-slate-800 "
-                                onClick={() => handleComplete(todo.id)}>
-                                <Check className="w-4 h-4" />
-                                <span className="hidden sm:inline text-[16px]">Completed</span>
+                                onClick={() => handleComplete(todo.id)}
+                                style={{
+                                    backgroundColor: todo.status === "completed" ? "#6b7280" : "#000000"
+                                }}>
+                                <span className="hidden sm:inline text-[16px]">
+                                    {todo.status === "completed" ? "Uncomplete" : "Completed"}
+                                </span>
                             </button>
                             <button
-                                className="px-2 py-1  rounded-lg cursor-pointer border border-gray-800 bg-white text-gray-800 text-sm sm:text-base  flex items-center justify-center gap-1  hover:bg-slate-100"
+                                className="px-2 py-1  rounded-lg cursor-pointer border border-gray-800 bg-gray-100 text-black text-sm sm:text-base  flex items-center justify-center gap-1 hover:bg-gray-300 "
                                 onClick={() => handleDelete(todo.id)}>
                                 <span>X</span>
                                 <span className="hidden sm:inline text-[16px]">Delete</span>
